@@ -124,7 +124,7 @@ exports.handler = (event, context, callback) => {
         console.log(`Publishing to topic ${topicArn}`);
         // publish message
         const params = {
-            Message: `Yo Nathan it's ya boi lil buttonz`,
+            Message: `Battery voltage: ${event.batteryVoltage}`,
             Subject: `Jason's is here`,
             TopicArn: topicArn,
         };
