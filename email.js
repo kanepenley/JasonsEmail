@@ -115,20 +115,22 @@ function createTopic(topicName, cb) {
  */
 exports.handler = (event, context, callback) => {
     console.log('Received event:', event.clickType);
-
-    // create/get topic
-    createTopic('aws-iot-button-sns-topic', (err, topicArn) => {
-        if (err) {
-            return callback(err);
-        }
-        console.log(`Publishing to topic ${topicArn}`);
-        // publish message
-        const params = {
-            Message: `Battery voltage: ${event.batteryVoltage}`,
-            Subject: `Jason's is here`,
-            TopicArn: topicArn,
-        };
-        // result will go to function callback
-        SNS.publish(params, callback);
-    });
+    var date = new Date();
+    var hour = date.getUTCHours();
+    if (hour >= 15 && hour <= 18) {
+        createTopic('aws-iot-button-sns-topic', (err, topicArn) => {
+            if (err) {
+                return callback(err);
+            }
+            console.log(`Publishing to topic ${topicArn}`);
+            // publish message
+            const params = {
+                Message: `Battery voltage: ${event.batteryVoltage}`,
+                Subject: `Jason's is here`,
+                TopicArn: topicArn,
+            };
+            // result will go to function callback
+            SNS.publish(params, callback);
+        });
+    }
 };
